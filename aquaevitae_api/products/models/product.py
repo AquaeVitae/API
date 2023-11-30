@@ -1,58 +1,59 @@
 from django.db import models
 
-from aquaevitae_api.models import BaseModel, SetField
+from aquaevitae_api.models import BaseModel
+from products.models.base import ProductBase
 from partnerships.models.partnership import Partnership
 from products.constants import (
-    CATEGORY_CHOICES,
-    SIZE_TYPE_CHOICES,
     SKIN_TYPE_CHOICES,
     PRODUCT_TYPE_CHOICES,
 )
 
 
-class Product(BaseModel):
-    name = models.CharField()
+class Product(ProductBase, BaseModel):
     assigned_partnership = models.ForeignKey(
-        Partnership, null=True, blank=True, on_delete=models.DO_NOTHING
+        Partnership,
+        null=True,
+        blank=True,
+        on_delete=models.DO_NOTHING,
+        related_name="+",
     )
 
-    category = models.CharField(max_length=1, choices=CATEGORY_CHOICES)
-    size = models.FloatField()
-    size_type = models.CharField(max_length=2, choices=SIZE_TYPE_CHOICES)
-
-    characteristics = models.TextField()
-    recommended_use = models.TextField()
-    contraindications = models.TextField()
+    class Meta:
+        db_table = "product"
 
 
-class ProductIngredients(models.Model):
-    product_id = models.ForeignKey(
+class Ingredients(models.Model):
+    product = models.ForeignKey(
         Product, related_name="ingredients", on_delete=models.CASCADE
     )
     name = models.CharField()
 
+    class Meta:
+        unique_together = (
+            "product",
+            "name",
+        )
 
-class ProductSkinType(models.Model):
-    product_id = models.ForeignKey(
+
+class SkinType(models.Model):
+    product = models.ForeignKey(
         Product, related_name="skin_types", on_delete=models.CASCADE
     )
     skin_type = models.SmallIntegerField(blank=True, choices=SKIN_TYPE_CHOICES)
 
     class Meta:
         unique_together = (
-            "product_id",
+            "product",
             "skin_type",
         )
 
 
-class ProductType(models.Model):
-    product_id = models.ForeignKey(
-        Product, related_name="types", on_delete=models.CASCADE
-    )
+class Type(models.Model):
+    product = models.ForeignKey(Product, related_name="types", on_delete=models.CASCADE)
     product_type = models.SmallIntegerField(blank=False, choices=PRODUCT_TYPE_CHOICES)
 
     class Meta:
         unique_together = (
-            "product_id",
+            "product",
             "product_type",
         )

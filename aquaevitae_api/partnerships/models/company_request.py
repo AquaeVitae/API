@@ -1,8 +1,8 @@
-from companies.models.company import Company
-from partnerships.models.request import RequestBaseModel
+from aquaevitae_api.models import BaseModel
+
+from partnerships.models.base import RequestBaseModel
+from companies.models.base import CompanyBaseModel
 
 
-class CompanyRequest(RequestBaseModel, Company):
-    def __init__(self, *args, **kwargs):
-        super(CompanyRequest, self).__init__(*args, **kwargs)
-        self.fields.pop("assigned_partnership")
+class CompanyRequest(RequestBaseModel, CompanyBaseModel, BaseModel):
+    pass

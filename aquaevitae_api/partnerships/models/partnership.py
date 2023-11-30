@@ -1,7 +1,7 @@
 from django.db import models
 
 from aquaevitae_api.models import BaseModel
-from companies.models.company import Company
+from companies.models import Company
 from partnerships.models import CompanyRequest
 from partnerships.constants import PARTNERSHIP_STATUS_CHOICES
 
@@ -16,3 +16,6 @@ class Partnership(BaseModel):
         CompanyRequest, null=True, blank=True, on_delete=models.DO_NOTHING
     )
     closed_date = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        db_table = "partnership"
