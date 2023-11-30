@@ -34,7 +34,15 @@ from dotenv import load_dotenv
 if DEBUG: load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 
 # Application definition
-OUTSIDE_APPS = ["phonenumber_field",]
+EXTERNAL_APPS = [
+    "phonenumber_field",
+]
+
+INTERNAL_APPS = [
+    'companies', 
+    'partnerships',
+    'products',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -43,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-] + OUTSIDE_APPS
+] + INTERNAL_APPS + EXTERNAL_APPS
 
 
 MIDDLEWARE = [
