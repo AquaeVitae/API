@@ -6,40 +6,68 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('companies', '0001_initial'),
+        ("companies", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CompanyRequest',
+            name="CompanyRequest",
             fields=[
-                ('company_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='companies.company')),
-                ('approved_date', models.DateTimeField(blank=True, null=True)),
-                ('comments', models.TextField(blank=True, null=True)),
-                ('status', models.CharField(choices=[('A', 'Approved'), ('W', 'Waiting'), ('D', 'Denied')], max_length=1)),
+                (
+                    "company_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="companies.company",
+                    ),
+                ),
+                ("approved_date", models.DateTimeField(blank=True, null=True)),
+                ("comments", models.TextField(blank=True, null=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("A", "Approved"), ("W", "Waiting"), ("D", "Denied")],
+                        max_length=1,
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=('companies.company', models.Model),
+            bases=("companies.company", models.Model),
         ),
         migrations.CreateModel(
-            name='Partnership',
+            name="Partnership",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('status', models.CharField(choices=[('O', 'Open'), ('C', 'Closed')], max_length=1)),
-                ('comments', models.TextField(blank=True, null=True)),
-                ('closed_date', models.DateTimeField(blank=True, null=True)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("O", "Open"), ("C", "Closed")], max_length=1
+                    ),
+                ),
+                ("comments", models.TextField(blank=True, null=True)),
+                ("closed_date", models.DateTimeField(blank=True, null=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

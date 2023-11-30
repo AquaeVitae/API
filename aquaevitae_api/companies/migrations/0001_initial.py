@@ -6,29 +6,40 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Company',
+            name="Company",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('name', models.CharField(max_length=100, unique=True)),
-                ('agent_fullname', models.CharField(max_length=30)),
-                ('agent_role', models.CharField(max_length=30, null=True)),
-                ('agent_email', models.EmailField(max_length=100, unique=True)),
-                ('phone', phonenumber_field.modelfields.PhoneNumberField(max_length=128, null=True, region=None, unique=True)),
-                ('country', models.CharField(max_length=30, unique=True)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("name", models.CharField(max_length=100, unique=True)),
+                ("agent_fullname", models.CharField(max_length=30)),
+                ("agent_role", models.CharField(max_length=30, null=True)),
+                ("agent_email", models.EmailField(max_length=100, unique=True)),
+                (
+                    "phone",
+                    phonenumber_field.modelfields.PhoneNumberField(
+                        max_length=128, null=True, region=None, unique=True
+                    ),
+                ),
+                ("country", models.CharField(max_length=30, unique=True)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

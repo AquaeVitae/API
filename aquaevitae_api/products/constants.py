@@ -1,20 +1,20 @@
 from django.utils.translation import gettext_lazy as _
 
 CATEGORY_CHOICES = [
-        ("B", _("Body")),
-        ("F", _("Facial")),
-        ("H", _("Hair")),
-        ("P", _("Perfume")),
-        ("C", _("Childrens")),
-        ("S", _("Suns")),
-        ("M", _("Makeup")),
-        ("O", _("Other")),
-    ]
+    ("B", _("Body")),
+    ("F", _("Facial")),
+    ("H", _("Hair")),
+    ("P", _("Perfume")),
+    ("C", _("Childrens")),
+    ("S", _("Suns")),
+    ("M", _("Makeup")),
+    ("O", _("Other")),
+]
 
 SIZE_TYPE_CHOICES = [
-        ("Ml", _("Milimiter")),
-        ("Gr", _("Grams")),
-    ]
+    ("Ml", _("Milimiter")),
+    ("Gr", _("Grams")),
+]
 
 PRODUCT_TYPE_CHOICES = [
     (1, _("Soap")),

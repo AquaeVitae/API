@@ -2,6 +2,7 @@ from django.db import models
 
 from partnerships.constants import REQUEST_STATUS_CHOICES
 
+
 class RequestBaseModel(models.Model):
     approved_date = models.DateTimeField(null=True, blank=True)
     comments = models.TextField(null=True, blank=True)

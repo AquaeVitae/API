@@ -6,62 +6,183 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('partnerships', '0001_initial'),
+        ("partnerships", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('name', models.CharField()),
-                ('category', models.CharField(choices=[('B', 'Body'), ('F', 'Facial'), ('H', 'Hair'), ('P', 'Perfume'), ('C', 'Childrens'), ('S', 'Suns'), ('M', 'Makeup'), ('O', 'Other')], max_length=1)),
-                ('size', models.FloatField()),
-                ('size_type', models.CharField(choices=[('Ml', 'Milimiter'), ('Gr', 'Grams')], max_length=2)),
-                ('characteristics', models.TextField()),
-                ('recommended_use', models.TextField()),
-                ('contraindications', models.TextField()),
-                ('assigned_partnership', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.DO_NOTHING, to='partnerships.partnership')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("name", models.CharField()),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("B", "Body"),
+                            ("F", "Facial"),
+                            ("H", "Hair"),
+                            ("P", "Perfume"),
+                            ("C", "Childrens"),
+                            ("S", "Suns"),
+                            ("M", "Makeup"),
+                            ("O", "Other"),
+                        ],
+                        max_length=1,
+                    ),
+                ),
+                ("size", models.FloatField()),
+                (
+                    "size_type",
+                    models.CharField(
+                        choices=[("Ml", "Milimiter"), ("Gr", "Grams")], max_length=2
+                    ),
+                ),
+                ("characteristics", models.TextField()),
+                ("recommended_use", models.TextField()),
+                ("contraindications", models.TextField()),
+                (
+                    "assigned_partnership",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        to="partnerships.partnership",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='ProductIngredients',
+            name="ProductIngredients",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField()),
-                ('product_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ingredients', to='products.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField()),
+                (
+                    "product_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="ingredients",
+                        to="products.product",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ProductType',
+            name="ProductType",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('product_type', models.SmallIntegerField(choices=[(1, 'Soap'), (2, 'Syndet'), (3, 'Bath Gel'), (4, 'Bath cream'), (5, 'Shampoo'), (6, 'Oil'), (7, 'Lotion'), (8, 'Cream'), (9, 'Balm'), (10, 'Waters'), (11, 'Micellar Water'), (12, 'Water Essences'), (13, 'Face Mist'), (14, 'Mask'), (15, 'Sérum'), (16, 'Others')])),
-                ('product_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='types', to='products.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "product_type",
+                    models.SmallIntegerField(
+                        choices=[
+                            (1, "Soap"),
+                            (2, "Syndet"),
+                            (3, "Bath Gel"),
+                            (4, "Bath cream"),
+                            (5, "Shampoo"),
+                            (6, "Oil"),
+                            (7, "Lotion"),
+                            (8, "Cream"),
+                            (9, "Balm"),
+                            (10, "Waters"),
+                            (11, "Micellar Water"),
+                            (12, "Water Essences"),
+                            (13, "Face Mist"),
+                            (14, "Mask"),
+                            (15, "Sérum"),
+                            (16, "Others"),
+                        ]
+                    ),
+                ),
+                (
+                    "product_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="types",
+                        to="products.product",
+                    ),
+                ),
             ],
             options={
-                'unique_together': {('product_id', 'product_type')},
+                "unique_together": {("product_id", "product_type")},
             },
         ),
         migrations.CreateModel(
-            name='ProductSkinType',
+            name="ProductSkinType",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('skin_type', models.SmallIntegerField(blank=True, choices=[(1, 'Dry'), (2, 'Sensitive'), (3, 'Sensible'), (4, 'Extra Dry'), (5, 'Combined'), (6, 'Irritated'), (7, 'Normal'), (8, 'Normal Dry'), (9, 'Normal Combined'), (10, 'Atopic Tendency'), (11, 'Fragile Damaged'), (12, 'All')])),
-                ('product_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='skin_types', to='products.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "skin_type",
+                    models.SmallIntegerField(
+                        blank=True,
+                        choices=[
+                            (1, "Dry"),
+                            (2, "Sensitive"),
+                            (3, "Sensible"),
+                            (4, "Extra Dry"),
+                            (5, "Combined"),
+                            (6, "Irritated"),
+                            (7, "Normal"),
+                            (8, "Normal Dry"),
+                            (9, "Normal Combined"),
+                            (10, "Atopic Tendency"),
+                            (11, "Fragile Damaged"),
+                            (12, "All"),
+                        ],
+                    ),
+                ),
+                (
+                    "product_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="skin_types",
+                        to="products.product",
+                    ),
+                ),
             ],
             options={
-                'unique_together': {('product_id', 'skin_type')},
+                "unique_together": {("product_id", "skin_type")},
             },
         ),
     ]
