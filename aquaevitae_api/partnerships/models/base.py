@@ -12,5 +12,5 @@ class RequestBaseModel(models.Model):
         abstract = True
 
     @property
-    def is_approved(self):
+    def is_approved(self) -> bool:
         return self.status == "A"

@@ -2,9 +2,9 @@ from django.db import models
 
 from aquaevitae_api.models import BaseModel, SetField
 
-from products.models.base import ProductBase
 from partnerships.models.base import RequestBaseModel
 from partnerships.models import Partnership
+from products.models.base import ProductBase
 from products.constants import (
     SKIN_TYPE_CHOICES,
     PRODUCT_TYPE_CHOICES,

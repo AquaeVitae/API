@@ -1,6 +1,6 @@
 from django.db import models
 
-from aquaevitae_api.models import BaseModel
+from aquaevitae_api.aquaevitae_api.models.base import BaseModel
 from companies.models import Company
 from partnerships.models import CompanyRequest
 from partnerships.constants import PARTNERSHIP_STATUS_CHOICES

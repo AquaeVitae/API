@@ -37,6 +37,8 @@ if DEBUG:
 # Application definition
 EXTERNAL_APPS = [
     "phonenumber_field",
+    "drf_yasg",
+    "rest_framework",
 ]
 
 INTERNAL_APPS = [
