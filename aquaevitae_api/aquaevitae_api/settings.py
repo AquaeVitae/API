@@ -34,6 +34,13 @@ from dotenv import load_dotenv
 if DEBUG:
     load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
+# Actual directory user files go to
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
+
+# URL used to access the media
+MEDIA_URL = '/images/'
+
+
 # Application definition
 EXTERNAL_APPS = [
     "phonenumber_field",
@@ -45,10 +52,10 @@ INTERNAL_APPS = [
     "companies",
     "partnerships",
     "products",
+    "recommendations",
 ]
 
-INSTALLED_APPS = (
-    [
+DJANGO_APPS = [
         "django.contrib.admin",
         "django.contrib.auth",
         "django.contrib.contenttypes",
@@ -56,6 +63,9 @@ INSTALLED_APPS = (
         "django.contrib.messages",
         "django.contrib.staticfiles",
     ]
+
+INSTALLED_APPS = (
+    DJANGO_APPS
     + INTERNAL_APPS
     + EXTERNAL_APPS
 )
@@ -147,3 +157,17 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning'
+}
+
+# Application settings
+SKIN_TYPE_MAX_NUMBER = os.getenv("SKIN_TYPE_MAX_NUMBER", 3) 
+SKIN_DISEASE_MAX_NUMBER = os.getenv("SKIN_DISEASE_MAX_NUMBER", 5) 
+
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@aquaevitae.pt")

@@ -15,28 +15,35 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.conf import settings
+from django.conf.urls.static import static
 
-from partnerships import urls
+# from partnerships import urls as partnerships_urls
+from recommendations import urls as recommendations_urls
+from products import urls as products_urls
+
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
-      default_version='v1',
-      description="Test description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
-      license=openapi.License(name="BSD License"),
+      title="Aquaevitae API",
+      default_version='v1'
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
 )
 
-urlpatterns = [
+v1_urlpatterns = [
     path("admin/", admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
+    + recommendations_urls.urlpatterns \
+    + products_urls.urlpatterns \
+    # + partnerships_urls.urlpatterns \
 
-] + urls.urlpatterns
+urlpatterns = [
+    path('v1/', include((v1_urlpatterns, 'v1'), namespace='v1'))
+]

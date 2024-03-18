@@ -7,7 +7,6 @@ from partnerships.models import Partnership
 from products.models.base import ProductBase
 from products.constants import (
     SKIN_TYPE_CHOICES,
-    PRODUCT_TYPE_CHOICES,
 )
 
 
@@ -24,18 +23,10 @@ class ProductRequest(RequestBaseModel, ProductBase, BaseModel):
         models.SmallIntegerField(blank=True, choices=SKIN_TYPE_CHOICES),
         size=len(SKIN_TYPE_CHOICES),
         default=list,
-        null=True,
-        blank=True,
-    )
-
-    product_type = SetField(
-        models.SmallIntegerField(blank=True, choices=PRODUCT_TYPE_CHOICES),
-        size=len(PRODUCT_TYPE_CHOICES),
-        default=list,
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
     )
 
     ingredients = SetField(
-        models.CharField(blank=True, null=True), default=list, null=True, blank=True
+        models.CharField(blank=False, null=False), default=list, null=False, blank=False
     )

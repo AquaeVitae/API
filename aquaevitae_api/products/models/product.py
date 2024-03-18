@@ -1,13 +1,19 @@
+from hashlib import md5
+
 from django.db import models
 
+from aquaevitae_api.storage import OverwriteStorage
 from aquaevitae_api.models import BaseModel
 from products.models.base import ProductBase
 from partnerships.models.partnership import Partnership
 from products.constants import (
     SKIN_TYPE_CHOICES,
-    PRODUCT_TYPE_CHOICES,
+    SKIN_NEEDS_CHOICES,
+    SOLAR_CARES_CHOICES
 )
 
+def upload_to(instance, filename):
+    return f"products/{md5(instance.id.hex.encode('utf-8')).hexdigest()}.{filename.split('.')[-1]}"
 
 class Product(ProductBase, BaseModel):
     assigned_partnership = models.ForeignKey(
@@ -17,6 +23,7 @@ class Product(ProductBase, BaseModel):
         on_delete=models.DO_NOTHING,
         related_name="+",
     )
+    image = models.ImageField(upload_to=upload_to, storage=OverwriteStorage(), null=True, blank=True, )
 
     class Meta:
         db_table = "product"
@@ -34,6 +41,9 @@ class Ingredients(models.Model):
             "name",
         )
 
+    def __str__(self):
+        return self.name
+
 
 class SkinType(models.Model):
     product = models.ForeignKey(
@@ -47,13 +57,37 @@ class SkinType(models.Model):
             "skin_type",
         )
 
+    def __str__(self):
+        return self.get_skin_type_display()
 
-class Type(models.Model):
-    product = models.ForeignKey(Product, related_name="types", on_delete=models.CASCADE)
-    product_type = models.SmallIntegerField(blank=False, choices=PRODUCT_TYPE_CHOICES)
+
+class SkinNeeds(models.Model):
+    product = models.ForeignKey(
+        Product, related_name="skin_needs", on_delete=models.CASCADE
+    )
+    skin_need = models.SmallIntegerField(blank=True, choices=SKIN_NEEDS_CHOICES)
 
     class Meta:
         unique_together = (
             "product",
-            "product_type",
+            "skin_need",
         )
+
+    def __str__(self):
+        return self.get_skin_need_display()
+
+
+class SkinSolarNeeds(models.Model):
+    product = models.ForeignKey(
+        Product, related_name="skin_solar_needs", on_delete=models.CASCADE
+    )
+    skin_solar_need = models.SmallIntegerField(blank=True, choices=SOLAR_CARES_CHOICES)
+
+    class Meta:
+        unique_together = (
+            "product",
+            "skin_solar_need",
+        )
+
+    def __str__(self):
+        return self.get_skin_solar_need_display()

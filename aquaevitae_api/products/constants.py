@@ -32,7 +32,7 @@ PRODUCT_TYPE_CHOICES = [
     (13, _("Face Mist")),
     (14, _("Mask")),
     (15, _("Sérum")),
-    (16, _("Others")),
+    (0, _("Others")),
 ]
 
 SKIN_TYPE_CHOICES = [
@@ -47,7 +47,7 @@ SKIN_TYPE_CHOICES = [
     (9, _("Normal Combined")),
     (10, _("Atopic Tendency")),
     (11, _("Fragile Damaged")),
-    (12, _("All")),
+    (0, _("All")),
 ]
 
 SKIN_NEEDS_CHOICES = [
@@ -68,7 +68,7 @@ SKIN_NEEDS_CHOICES = [
     (15, _("Intimate Care")),
     (16, _("Hands")),
     (17, _("Feet")),
-    (18, _("Others")),
+    (0, _("Others")),
 ]
 
 SOLAR_CARES_CHOICES = [
@@ -76,6 +76,6 @@ SOLAR_CARES_CHOICES = [
     (2, _("Hair Protection")),
     (3, _("Face Protection")),
     (4, _("Aftersun")),
-    (5, _("Others")),
-    (6, _("Suntun")),
+    (5, _("Suntun")),
+    (0, _("Others")),
 ]

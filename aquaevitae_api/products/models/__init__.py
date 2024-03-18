@@ -1,1 +1,1 @@
-from .product import Product
+from .product import Product, Ingredients, SkinType, SkinNeeds, SkinSolarNeeds

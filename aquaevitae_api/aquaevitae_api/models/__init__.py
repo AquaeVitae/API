@@ -1,2 +1,2 @@
-from .base import BaseModel
+from .base import BaseModel, OneToManyBaseModel
 from .fields import SetField
