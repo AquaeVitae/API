@@ -61,8 +61,8 @@ class DetailProductSerializer(serializers.ModelSerializer):
     skin_needs = DetailSkinNeedsSerializer(many=True, allow_empty=False)
     skin_solar_needs = DetailSkinSolarNeedsSerializer(many=True, allow_empty=True)
     image = serializers.ImageField(required=False)
-
     # score = TODO
+
     class Meta:
         model = Product
         fields = "__all__"

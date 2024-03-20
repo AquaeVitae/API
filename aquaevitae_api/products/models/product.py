@@ -3,9 +3,9 @@ from hashlib import md5
 from django.db import models
 
 from aquaevitae_api.storage import OverwriteStorage
-from aquaevitae_api.models import BaseModel
+from aquaevitae_api.models import BaseModel, OneToManyBaseModel
 from products.models.base import ProductBase
-from partnerships.models.partnership import Partnership
+from partnerships.models.partnership import PartnershipRequest
 from products.constants import (
     SKIN_TYPE_CHOICES,
     SKIN_NEEDS_CHOICES,
@@ -17,7 +17,7 @@ def upload_to(instance, filename):
 
 class Product(ProductBase, BaseModel):
     assigned_partnership = models.ForeignKey(
-        Partnership,
+        PartnershipRequest,
         null=True,
         blank=True,
         on_delete=models.DO_NOTHING,
@@ -29,7 +29,7 @@ class Product(ProductBase, BaseModel):
         db_table = "product"
 
 
-class Ingredients(models.Model):
+class Ingredients(OneToManyBaseModel):
     product = models.ForeignKey(
         Product, related_name="ingredients", on_delete=models.CASCADE
     )
@@ -45,7 +45,7 @@ class Ingredients(models.Model):
         return self.name
 
 
-class SkinType(models.Model):
+class SkinType(OneToManyBaseModel):
     product = models.ForeignKey(
         Product, related_name="skin_types", on_delete=models.CASCADE
     )
@@ -61,7 +61,7 @@ class SkinType(models.Model):
         return self.get_skin_type_display()
 
 
-class SkinNeeds(models.Model):
+class SkinNeeds(OneToManyBaseModel):
     product = models.ForeignKey(
         Product, related_name="skin_needs", on_delete=models.CASCADE
     )
@@ -77,7 +77,7 @@ class SkinNeeds(models.Model):
         return self.get_skin_need_display()
 
 
-class SkinSolarNeeds(models.Model):
+class SkinSolarNeeds(OneToManyBaseModel):
     product = models.ForeignKey(
         Product, related_name="skin_solar_needs", on_delete=models.CASCADE
     )

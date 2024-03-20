@@ -11,7 +11,7 @@ from recommendations.constants import (
 class Form(BaseModel):
     facial_analyze = models.UUIDField(blank=True, null=True, unique=True)
     user_email = models.EmailField(blank=True, null=True)
-    user_name = models.CharField(blank=True, null=True)
+    user_name = models.CharField(blank=False, null=False, max_length=50)
     informed_age = models.PositiveSmallIntegerField(blank=False, null=False, default=0)
     perceived_age = models.PositiveSmallIntegerField(blank=False, null=False, default=0)
 

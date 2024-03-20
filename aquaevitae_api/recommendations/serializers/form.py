@@ -48,7 +48,7 @@ class CreateFormSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Form
-        exclude = ("perceived_age",)
+        exclude = ("perceived_age", "is_deleted")
 
     def create(self, validated_data):
         skin_types_data = list(validated_data.pop('skin_types', []))
@@ -64,6 +64,6 @@ class CreateFormSerializer(serializers.ModelSerializer):
         return form
 
     def to_representation(self, instance):
-        # data = {"form_id": instance.id}
-        data = DetailFormSerializer().to_representation(instance)
+        data = {"form_id": instance.id}
+        # data = DetailFormSerializer().to_representation(instance)
         return data

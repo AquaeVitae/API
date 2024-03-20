@@ -6,7 +6,7 @@ from companies.models.base import CompanyBaseModel
 
 class Company(CompanyBaseModel, BaseModel):
     assigned_partnership = models.OneToOneField(
-        "partnerships.Partnership",
+        "partnerships.PartnershipRequest",
         null=True,
         blank=True,
         on_delete=models.DO_NOTHING,

@@ -1,1 +1,1 @@
-from .partnership import CreatePartnershipSerializer, ListPartnershipSerializer, DefaultPartnershipSerializer
+from .partnership import CreatePartnershipSerializer, DefaultPartnershipSerializer

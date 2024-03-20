@@ -1,21 +1,22 @@
 from django.db import models
 
 from aquaevitae_api.models.base import BaseModel
-from companies.models import Company
-from partnerships.models import CompanyRequest
-from partnerships.constants import PARTNERSHIP_STATUS_CHOICES
+from partnerships.models.base import RequestBaseModel
+from phonenumber_field.modelfields import PhoneNumberField
 
 
-class Partnership(BaseModel):
-    status = models.CharField(max_length=1, choices=PARTNERSHIP_STATUS_CHOICES)
-    comments = models.TextField(blank=True, null=True)
-    company = models.ForeignKey(
-        Company, null=True, blank=True, on_delete=models.DO_NOTHING, related_name="+"
+class PartnershipRequest(RequestBaseModel, BaseModel):
+    company_name = models.CharField(null=False, blank=False, max_length=100)
+    agent_fullname = models.CharField(
+        null=False, blank=False, max_length=30
     )
-    company_request = models.ForeignKey(
-        CompanyRequest, null=True, blank=True, on_delete=models.DO_NOTHING
+    agent_role = models.CharField(null=True, blank=False, max_length=30)
+    agent_email = models.EmailField(
+        null=False, blank=False, max_length=100
     )
-    closed_date = models.DateTimeField(null=True, blank=True)
+    phone = PhoneNumberField(null=True, blank=False)
+    country = models.CharField(null=False, blank=False, max_length=30)
+    agent_message = models.TextField(null=False, blank=False, max_length=500)
 
     class Meta:
-        db_table = "partnership"
+        db_table = "partnership_request"

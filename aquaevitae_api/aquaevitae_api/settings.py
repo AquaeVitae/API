@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-^&ha2eixto9y#0^2*j_+juxy*$a=vse%h3!9y7zr41$(k=_m1j"
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-^&ha2eixto9y#0^2*j_+juxy*$a=vse%h3!9y7zr41$(k=_m1j")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", [])
 
 # Config Dev Dotenv
 from dotenv import load_dotenv
@@ -169,5 +169,13 @@ REST_FRAMEWORK = {
 # Application settings
 SKIN_TYPE_MAX_NUMBER = os.getenv("SKIN_TYPE_MAX_NUMBER", 3) 
 SKIN_DISEASE_MAX_NUMBER = os.getenv("SKIN_DISEASE_MAX_NUMBER", 5) 
+REQUEST_TIME_LIMIT = os.getenv("REQUEST_TIME_LIMIT", 90) # Days
 
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@aquaevitae.pt")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
+
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "guilhermetonello@ipb.pt")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS=os.getenv("EMAIL_USE_TLS", True)

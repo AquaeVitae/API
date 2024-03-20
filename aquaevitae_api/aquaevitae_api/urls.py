@@ -22,7 +22,7 @@ from drf_yasg import openapi
 from django.conf import settings
 from django.conf.urls.static import static
 
-# from partnerships import urls as partnerships_urls
+from partnerships import urls as partnerships_urls
 from recommendations import urls as recommendations_urls
 from products import urls as products_urls
 
@@ -42,7 +42,7 @@ v1_urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
     + recommendations_urls.urlpatterns \
     + products_urls.urlpatterns \
-    # + partnerships_urls.urlpatterns \
+    + partnerships_urls.urlpatterns \
 
 urlpatterns = [
     path('v1/', include((v1_urlpatterns, 'v1'), namespace='v1'))

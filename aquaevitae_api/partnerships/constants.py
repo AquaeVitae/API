@@ -1,12 +1,11 @@
+from enum import unique
+
 from django.utils.translation import gettext_lazy as _
+from django.db.models import TextChoices
 
-REQUEST_STATUS_CHOICES = [
-    ("A", _("Approved")),
-    ("W", _("Waiting")),
-    ("D", _("Denied")),
-]
-
-PARTNERSHIP_STATUS_CHOICES = [
-    ("O", _("Open")),
-    ("C", _("Closed")),
-]
+@unique
+class RequestStatusChoices(TextChoices):
+    APPROVED = "A", _("Approved")
+    WAITING = "W", _("Waiting")
+    DENIED = "D", _("Denied")
+    DENIED_BY_SERVER = "S", _("Denied by Server")
