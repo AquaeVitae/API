@@ -13,20 +13,5 @@ class ProductsViewSet(mixins.ListModelMixin, AtomicTransactionMixin, BaseViewSet
     permission_classes = [permissions.AllowAny,]
     serializer_class = DetailProductSerializer
 
-    @action(
-        detail=True,
-        methods=['post'],
-        url_path="images",
-        parser_classes=[MultiPartParser,],
-        serializer_class=CreateImageSerializer
-    )
-    def post_image(self, request: Request, pk=None):
-        product = self.get_object()
-
-        product.image = request.data["image"]
-        product.save()
-
-        return Response(DetailProductSerializer(product).data)
-
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)

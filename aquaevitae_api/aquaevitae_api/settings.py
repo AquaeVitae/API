@@ -46,6 +46,7 @@ EXTERNAL_APPS = [
     "phonenumber_field",
     "drf_yasg",
     "rest_framework",
+    'django_admin_multiple_choice_list_filter',
 ]
 
 INTERNAL_APPS = [

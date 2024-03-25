@@ -1,11 +1,12 @@
 from hashlib import md5
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from aquaevitae_api.storage import OverwriteStorage
 from aquaevitae_api.models import BaseModel, OneToManyBaseModel
 from products.models.base import ProductBase
-from partnerships.models.partnership import PartnershipRequest
+from companies.models import Company
 from products.constants import (
     SKIN_TYPE_CHOICES,
     SKIN_NEEDS_CHOICES,
@@ -16,17 +17,18 @@ def upload_to(instance, filename):
     return f"products/{md5(instance.id.hex.encode('utf-8')).hexdigest()}.{filename.split('.')[-1]}"
 
 class Product(ProductBase, BaseModel):
-    assigned_partnership = models.ForeignKey(
-        PartnershipRequest,
-        null=True,
-        blank=True,
-        on_delete=models.DO_NOTHING,
-        related_name="+",
-    )
     image = models.ImageField(upload_to=upload_to, storage=OverwriteStorage(), null=True, blank=True, )
+    company = models.ForeignKey(
+        Company,
+        null=False,
+        blank=False,
+        on_delete=models.DO_NOTHING,
+        related_name="products",
+    )
 
     class Meta:
         db_table = "product"
+        verbose_name = _("Product")
 
 
 class Ingredients(OneToManyBaseModel):

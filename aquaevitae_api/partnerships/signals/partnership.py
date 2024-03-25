@@ -1,5 +1,6 @@
 import asyncio
 
+from django.contrib.auth.models import User, Group
 from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
@@ -14,7 +15,7 @@ from partnerships.constants import RequestStatusChoices
 @receiver(post_save, sender=PartnershipRequest)
 def notify_partnership_stakeholders(sender, instance, created, update_fields, *args, **kwargs):
     if not created:
-        if "status" in update_fields:
+        if instance.previous_status and instance.previous_status != instance.status:
             match instance.status:
                 case RequestStatusChoices.DENIED:
                     asyncio.run(async_send_mail(
@@ -32,7 +33,6 @@ def notify_partnership_stakeholders(sender, instance, created, update_fields, *a
                         fail_silently=True,
                         from_email=None
                     ))
-    
     else:
         if instance.status == RequestStatusChoices.DENIED_BY_SERVER:
             asyncio.run(async_send_mail(
@@ -50,20 +50,13 @@ def notify_partnership_stakeholders(sender, instance, created, update_fields, *a
                     [instance.agent_email],
                 )
             
-            # TODO add email of the agents
+            admin_addresses = set(User.objects.distinct("email").values_list("email", flat=True))
             admin_email = (
                     REQUEST_CREATED_ADMIN_SUBJECT % instance.company_name,
                     REQUEST_CREATED_ADMIN_MESSAGE % (instance.id, instance.company_name, instance.agent_fullname, instance.agent_role, instance.agent_email, instance.phone, instance.agent_message),
                     None,
-                    [instance.agent_email],
+                    admin_addresses,
                 )
 
             messages = (customer_email,admin_email)
             asyncio.run(async_send_mass_mail(messages, fail_silently=True))
-    
-
-@receiver(pre_save, sender=PartnershipRequest)
-def set_approved_date(sender, instance, update_fields, *args, **kwargs):
-    if update_fields:
-        if "status" in update_fields and instance.status == RequestStatusChoices.APPROVED:
-            instance.approved_date = timezone.now()

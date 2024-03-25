@@ -65,7 +65,7 @@ class DetailProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = "__all__"
+        exclude = ["company"]
         editable=False
 
     def to_representation(self, instance):

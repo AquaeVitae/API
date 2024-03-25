@@ -27,6 +27,9 @@ from recommendations import urls as recommendations_urls
 from products import urls as products_urls
 
 
+admin.site.disable_action('delete_selected')
+admin.autodiscover()
+
 schema_view = get_schema_view(
    openapi.Info(
       title="Aquaevitae API",
@@ -37,7 +40,6 @@ schema_view = get_schema_view(
 )
 
 v1_urlpatterns = [
-    path("admin/", admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
     + recommendations_urls.urlpatterns \
@@ -45,5 +47,6 @@ v1_urlpatterns = [
     + partnerships_urls.urlpatterns \
 
 urlpatterns = [
+    path("admin/", admin.site.urls),
     path('v1/', include((v1_urlpatterns, 'v1'), namespace='v1'))
 ]
