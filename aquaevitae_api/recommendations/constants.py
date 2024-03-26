@@ -2,6 +2,7 @@ from enum import unique
 from django.utils.translation import gettext_lazy as _
 from django.db.models import IntegerChoices
 
+
 @unique
 class FormSkinTypeChoices(IntegerChoices):
     DRY = 1, _("Dry")
@@ -14,6 +15,7 @@ class FormSkinTypeChoices(IntegerChoices):
     ATOPIC_TENDENCY = 8, _("Atopic Tendency")
     FRAGILE_DAMAGED = 9, _("Fragile Damaged")
     NOT_SURE = 0, _("Not Sure")
+
 
 @unique
 class FormSkinDiseasesChoices(IntegerChoices):
@@ -28,6 +30,7 @@ class FormSkinDiseasesChoices(IntegerChoices):
     PIGMENTATION = 9, _("Pigmentation")
     BLACKHEAD = 10, _("Blackhead")
     PORES = 11, _("Pores")
+
 
 @unique
 class FormSkinDiseasesLevelChoices(IntegerChoices):

@@ -6,19 +6,22 @@ from products.constants import CATEGORY_CHOICES, PRODUCT_TYPE_CHOICES
 
 class DetailSkinTypeSerializer(serializers.ModelSerializer):
     code = serializers.IntegerField(source="skin_type")
-    verbose_name = serializers.CharField(source='get_skin_type_display')
+    verbose_name = serializers.CharField(source="get_skin_type_display")
+
     class Meta:
         model = SkinType
         fields = ["code", "verbose_name"]
-        editable=False
+        editable = False
+
 
 class DetailSkinTypeSerializer(serializers.ModelSerializer):
     code = serializers.IntegerField(source="skin_type")
-    verbose_name = serializers.CharField(source='get_skin_type_display')
+    verbose_name = serializers.CharField(source="get_skin_type_display")
+
     class Meta:
         model = SkinType
         fields = ["code", "verbose_name"]
-        editable=False
+        editable = False
 
 
 class DetailCategorySerializer(serializers.Serializer):
@@ -27,7 +30,8 @@ class DetailCategorySerializer(serializers.Serializer):
 
     class Meta:
         fields = ["code", "verbose_name"]
-        editable=False
+        editable = False
+
 
 class DetailTypeSerializer(serializers.Serializer):
     code = serializers.ChoiceField(choices=PRODUCT_TYPE_CHOICES, required=True)
@@ -35,24 +39,27 @@ class DetailTypeSerializer(serializers.Serializer):
 
     class Meta:
         fields = ["code", "verbose_name"]
-        editable=False
+        editable = False
+
 
 class DetailSkinNeedsSerializer(serializers.ModelSerializer):
     code = serializers.IntegerField(source="skin_need")
-    verbose_name = serializers.CharField(source='get_skin_need_display')
+    verbose_name = serializers.CharField(source="get_skin_need_display")
+
     class Meta:
         model = SkinNeeds
         fields = ["code", "verbose_name"]
-        editable=False
+        editable = False
 
 
 class DetailSkinSolarNeedsSerializer(serializers.ModelSerializer):
     code = serializers.IntegerField(source="skin_solar_need")
-    verbose_name = serializers.CharField(source='get_skin_solar_need_display')
+    verbose_name = serializers.CharField(source="get_skin_solar_need_display")
+
     class Meta:
         model = SkinSolarNeeds
         fields = ["code", "verbose_name"]
-        editable=False
+        editable = False
 
 
 class DetailProductSerializer(serializers.ModelSerializer):
@@ -66,19 +73,26 @@ class DetailProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         exclude = ["company"]
-        editable=False
+        editable = False
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         category = data.pop("category")
-        data["category"] = DetailCategorySerializer().to_representation({"code": category, "verbose_name": instance.get_category_display()})
+        data["category"] = DetailCategorySerializer().to_representation(
+            {"code": category, "verbose_name": instance.get_category_display()}
+        )
         type = data.pop("type")
-        data["type"] = DetailTypeSerializer().to_representation({"code": type, "verbose_name": instance.get_type_display()})
+        data["type"] = DetailTypeSerializer().to_representation(
+            {"code": type, "verbose_name": instance.get_type_display()}
+        )
         return data
+
 
 class CreateImageSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=True)
 
     class Meta:
         model = Product
-        fields = ["image",]
+        fields = [
+            "image",
+        ]

@@ -7,4 +7,5 @@ class PartnershipsConfig(AppConfig):
 
     def ready(self) -> None:
         import partnerships.signals
+
         return super().ready()

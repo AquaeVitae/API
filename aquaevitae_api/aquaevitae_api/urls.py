@@ -27,26 +27,31 @@ from recommendations import urls as recommendations_urls
 from products import urls as products_urls
 
 
-admin.site.disable_action('delete_selected')
+admin.site.disable_action("delete_selected")
+admin.site.site_url = "../v1/swagger"
+admin.site.site_header = "Aquaevitae manager"
 admin.autodiscover()
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Aquaevitae API",
-      default_version='v1'
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(title="Aquaevitae API", default_version="v1"),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
-v1_urlpatterns = [
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-    + recommendations_urls.urlpatterns \
-    + products_urls.urlpatterns \
-    + partnerships_urls.urlpatterns \
-
+v1_urlpatterns = (
+    [
+        path(
+            "swagger/",
+            schema_view.with_ui("swagger", cache_timeout=0),
+            name="schema-swagger-ui",
+        ),
+    ]
+    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    + recommendations_urls.urlpatterns
+    + products_urls.urlpatterns
+    + partnerships_urls.urlpatterns
+)
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('v1/', include((v1_urlpatterns, 'v1'), namespace='v1'))
+    path("v1/", include((v1_urlpatterns, "v1"), namespace="v1")),
 ]

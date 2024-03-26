@@ -1,1 +1,1 @@
-from .users import GroupAdminCustom, UserAdminCustom
+from .auth import GroupAdminCustom, UserAdminCustom

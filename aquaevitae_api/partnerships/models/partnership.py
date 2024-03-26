@@ -8,15 +8,12 @@ from partnerships.models.base import RequestBaseModel
 from phonenumber_field.modelfields import PhoneNumberField
 from partnerships.constants import RequestStatusChoices
 
+
 class PartnershipRequest(RequestBaseModel, BaseModel):
     company_name = models.CharField(null=False, blank=False, max_length=100)
-    agent_fullname = models.CharField(
-        null=False, blank=False, max_length=30
-    )
+    agent_fullname = models.CharField(null=False, blank=False, max_length=30)
     agent_role = models.CharField(null=True, blank=False, max_length=30)
-    agent_email = models.EmailField(
-        null=False, blank=False, max_length=100
-    )
+    agent_email = models.EmailField(null=False, blank=False, max_length=100)
     phone = PhoneNumberField(null=True, blank=False)
     country = CountryField()
     agent_message = models.TextField(null=False, blank=False, max_length=500)
@@ -29,7 +26,7 @@ class PartnershipRequest(RequestBaseModel, BaseModel):
     def save(self, *args, **kwargs) -> None:
         if self.previous_status and self.status != self.previous_status:
             if self.status == RequestStatusChoices.APPROVED:
-                self.approved_date = timezone.now()            
+                self.approved_date = timezone.now()
 
         model = super(PartnershipRequest, self).save(*args, **kwargs)
         return model

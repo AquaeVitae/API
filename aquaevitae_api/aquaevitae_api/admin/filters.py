@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
+
 class DeletedListFilter(admin.SimpleListFilter):
     title = _("Deleted Registers")
     parameter_name = "is_deleted"
@@ -20,7 +21,7 @@ class DeletedListFilter(admin.SimpleListFilter):
             ("Availables", _("Availables")),
             ("All", _("Deleted Also")),
         )
-    
+
     def queryset(self, request, queryset):
         if self.value() == "Availables":
             return queryset.filter(is_deleted=False)

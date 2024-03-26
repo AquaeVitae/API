@@ -4,7 +4,7 @@ from aquaevitae_api.models import BaseModel, OneToManyBaseModel
 from recommendations.constants import (
     FormSkinTypeChoices,
     FormSkinDiseasesChoices,
-    FormSkinDiseasesLevelChoices
+    FormSkinDiseasesLevelChoices,
 )
 
 
@@ -17,10 +17,12 @@ class Form(BaseModel):
 
 
 class FormSkinType(OneToManyBaseModel):
-    form = models.ForeignKey(
-        Form, related_name="skin_types", on_delete=models.CASCADE
+    form = models.ForeignKey(Form, related_name="skin_types", on_delete=models.CASCADE)
+    skin_type = models.SmallIntegerField(
+        blank=False,
+        choices=FormSkinTypeChoices.choices,
+        default=FormSkinTypeChoices.NOT_SURE,
     )
-    skin_type = models.SmallIntegerField(blank=False, choices=FormSkinTypeChoices.choices, default=FormSkinTypeChoices.NOT_SURE)
 
     class Meta:
         unique_together = (
@@ -33,8 +35,12 @@ class FormSkinDisease(OneToManyBaseModel):
     form = models.ForeignKey(
         Form, related_name="skin_diseases", on_delete=models.CASCADE
     )
-    skin_disease = models.SmallIntegerField(blank=False, choices=FormSkinDiseasesChoices.choices)
-    level = models.SmallIntegerField(blank=False, choices=FormSkinDiseasesLevelChoices.choices)
+    skin_disease = models.SmallIntegerField(
+        blank=False, choices=FormSkinDiseasesChoices.choices
+    )
+    level = models.SmallIntegerField(
+        blank=False, choices=FormSkinDiseasesLevelChoices.choices
+    )
 
     class Meta:
         unique_together = (

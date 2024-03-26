@@ -10,14 +10,21 @@ from companies.models import Company
 from products.constants import (
     SKIN_TYPE_CHOICES,
     SKIN_NEEDS_CHOICES,
-    SOLAR_CARES_CHOICES
+    SOLAR_CARES_CHOICES,
 )
+
 
 def upload_to(instance, filename):
     return f"products/{md5(instance.id.hex.encode('utf-8')).hexdigest()}.{filename.split('.')[-1]}"
 
+
 class Product(ProductBase, BaseModel):
-    image = models.ImageField(upload_to=upload_to, storage=OverwriteStorage(), null=True, blank=True, )
+    image = models.ImageField(
+        upload_to=upload_to,
+        storage=OverwriteStorage(),
+        null=True,
+        blank=True,
+    )
     company = models.ForeignKey(
         Company,
         null=False,

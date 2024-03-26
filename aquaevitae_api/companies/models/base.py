@@ -3,6 +3,7 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
 
+
 class CompanyBaseModel(models.Model):
     name = models.CharField(null=False, blank=False, unique=True, max_length=100)
     agent_fullname = models.CharField(

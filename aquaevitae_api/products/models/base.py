@@ -17,7 +17,7 @@ class ProductBase(models.Model):
     recommended_use = models.TextField()
     contraindications = models.TextField()
     price = models.FloatField(blank=True, null=True)
-    url = models.URLField(blank=True, null=True)
+    url = models.URLField(blank=False, null=False)
 
     class Meta:
         abstract = True

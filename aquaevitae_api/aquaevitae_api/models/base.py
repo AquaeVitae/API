@@ -12,13 +12,17 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
-    
+
     def delete(self, *args, **kwargs) -> Tuple[int, Dict[str, int]]:
         if self.is_deleted:
             return super().delete(*args, **kwargs)
         else:
             self.is_deleted = True
-            return self.save(update_fields=["is_deleted",])
+            return self.save(
+                update_fields=[
+                    "is_deleted",
+                ]
+            )
 
     def __str__(self):
         if hasattr(self, "name"):

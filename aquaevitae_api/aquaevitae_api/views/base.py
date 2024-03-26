@@ -8,7 +8,7 @@ class BaseViewSet(viewsets.GenericViewSet):
         if not serializer:
             serializer = getattr(self, "serializer_class")
         return serializer
-    
+
     def get_queryset(self):
         return super().get_queryset().filter(is_deleted=False)
 
@@ -18,4 +18,3 @@ class AtomicTransactionMixin:
     def as_view(cls, actions=None, **initkwargs):
         view = super().as_view(actions, **initkwargs)
         return transaction.atomic()(view)
-    

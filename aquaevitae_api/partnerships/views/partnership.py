@@ -12,28 +12,31 @@ from partnerships.serializers import CreatePartnershipSerializer
 from partnerships.models import PartnershipRequest
 
 
-async def async_send_mail(model, target, exception = False):
+async def async_send_mail(model, target, exception=False):
     if exception:
         send_mail(
-            subject=_('Partnership Request Received of company ') + model.company_name,
+            subject=_("Partnership Request Received of company ") + model.company_name,
             message=str(model.id),
             recipient_list=[target],
             fail_silently=True,
-            from_email=None
+            from_email=None,
         )
     else:
         send_mail(
-            subject=_('Partnership Request Received of company ') + model.company_name,
+            subject=_("Partnership Request Received of company ") + model.company_name,
             message=str(model.id),
             recipient_list=[target],
             fail_silently=True,
-            from_email=None
+            from_email=None,
         )
 
+
 class PartnershipViewSet(mixins.CreateModelMixin, AtomicTransactionMixin, BaseViewSet):
-    queryset = PartnershipRequest.objects.all().order_by('-created_at')
+    queryset = PartnershipRequest.objects.all().order_by("-created_at")
     serializer_class = CreatePartnershipSerializer
-    permission_classes = [permissions.AllowAny,]
+    permission_classes = [
+        permissions.AllowAny,
+    ]
 
     def create(self, request, *args, **kwargs):
         super().create(request, *args, **kwargs)
