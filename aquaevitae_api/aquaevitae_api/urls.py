@@ -25,6 +25,7 @@ from django.conf.urls.static import static
 from partnerships import urls as partnerships_urls
 from recommendations import urls as recommendations_urls
 from products import urls as products_urls
+from analysis import urls as analysis_urls
 
 
 admin.site.disable_action("delete_selected")
@@ -50,6 +51,7 @@ v1_urlpatterns = (
     + recommendations_urls.urlpatterns
     + products_urls.urlpatterns
     + partnerships_urls.urlpatterns
+    + analysis_urls.urlpatterns
 )
 urlpatterns = [
     path("admin/", admin.site.urls),

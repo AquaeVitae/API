@@ -3,3 +3,6 @@ venv
 __pycache__
 mediafiles/*/*
 .vscode
+*.zip
+aquaevitae_api/analysis/images/*
+dump.rdb

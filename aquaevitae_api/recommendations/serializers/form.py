@@ -44,8 +44,6 @@ class CreateFormSkinDiseasesSerializer(serializers.ModelSerializer):
 
 
 class CreateFormSerializer(serializers.ModelSerializer):
-    # skin_types = serializers.ListField(required=True, allow_empty=False, child=serializers.ChoiceField(FormSkinTypeChoices.choices, required=True))
-    # skin_diseases = serializers.MultipleChoiceField(choices=FormSkinDiseasesChoices.choices, required=True, allow_empty=False, validators=[lambda a: validate_max_length(a, settings.SKIN_DISEASE_MAX_NUMBER)])
     skin_types = serializers.MultipleChoiceField(
         choices=FormSkinTypeChoices.choices,
         required=True,
@@ -79,5 +77,4 @@ class CreateFormSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = {"form_id": instance.id}
-        # data = DetailFormSerializer().to_representation(instance)
         return data

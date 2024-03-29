@@ -106,7 +106,7 @@ class PartnershipsAdmin(admin.ModelAdmin):
         "comments",
         "approved_date",
     ]
-    tmp_readonly_fields = [
+    _readonly_fields = [
         "id",
         "company_name",
         "agent_fullname",
@@ -122,7 +122,7 @@ class PartnershipsAdmin(admin.ModelAdmin):
     list_filter = [DeletedListFilter, ("country", CountriesListFilter), "status"]
     form = PartnershipUpdateForm
 
-    tmp_inlines = [CompanyInline]
+    _inlines = [CompanyInline]
 
     list_display_links = ["id", "company_name"]
 
@@ -150,14 +150,14 @@ class PartnershipsAdmin(admin.ModelAdmin):
     ) -> Any:
         match obj.status:
             case RequestStatusChoices.DENIED | RequestStatusChoices.DENIED_BY_SERVER:
-                self.readonly_fields = self.tmp_readonly_fields + ["status", "comments"]
+                self.readonly_fields = self._readonly_fields + ["status", "comments"]
                 self.inlines = []
             case RequestStatusChoices.WAITING:
-                self.readonly_fields = self.tmp_readonly_fields
-                self.inlines = self.tmp_inlines
+                self.readonly_fields = self._readonly_fields
+                self.inlines = self._inlines
                 self.exclude = ["approved_date"]
             case RequestStatusChoices.APPROVED:
-                self.readonly_fields = self.tmp_readonly_fields + ["status", "comments"]
+                self.readonly_fields = self._readonly_fields + ["status", "comments"]
                 self.inlines = [ReadOnlyCompanyInline]
 
         return super().get_form(request, obj, change, **kwargs)
