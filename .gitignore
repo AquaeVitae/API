@@ -6,3 +6,4 @@ mediafiles/*/*
 *.zip
 aquaevitae_api/analysis/images/*
 dump.rdb
+artifacts/models/*

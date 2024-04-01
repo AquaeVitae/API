@@ -8,7 +8,7 @@ from rest_framework.parsers import MultiPartParser
 from aquaevitae_api.views import BaseViewSet
 from analysis.serializers import CreateFacialAnalysisSerializer, ResponseFacialAnalysisSerializer, DetailsFacialAnalysisSerializer
 from analysis.models import FacialAnalysis
-from analysis.tasks import process_wrinkles_facial_analysis, set_as_done
+from analysis.tasks import process_wrinkles_facial_analysis, set_as_done, process_age_prediction
 
 
 class FacialAnalysisViewSet(mixins.RetrieveModelMixin, mixins.CreateModelMixin, BaseViewSet):
@@ -23,7 +23,7 @@ class FacialAnalysisViewSet(mixins.RetrieveModelMixin, mixins.CreateModelMixin, 
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        tasks = (process_wrinkles_facial_analysis.s(analysis_id=instance.id),)
+        tasks = (process_wrinkles_facial_analysis.s(analysis_id=instance.id), process_age_prediction.s(analysis_id=instance.id))
         callback = set_as_done.s(analysis_id=instance.id)
         chord(tasks)(callback)
 

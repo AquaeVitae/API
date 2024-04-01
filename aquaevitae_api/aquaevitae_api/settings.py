@@ -43,6 +43,7 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "mediafiles")
 # URL used to access the media
 MEDIA_URL = "/images/"
 
+ARTIFACTS_URL = os.path.join(os.path.dirname(BASE_DIR), "artifacts")
 
 # Application definition
 EXTERNAL_APPS = [
@@ -171,6 +172,10 @@ REST_FRAMEWORK = {
 SKIN_TYPE_MAX_NUMBER = os.getenv("SKIN_TYPE_MAX_NUMBER", 3)
 SKIN_DISEASE_MAX_NUMBER = os.getenv("SKIN_DISEASE_MAX_NUMBER", 5)
 REQUEST_TIME_LIMIT = os.getenv("REQUEST_TIME_LIMIT", 90)  # Days
+ANALYSIS_STORAGE_FOLDER = os.path.join(BASE_DIR, "analysis", "images")
+ML_MODELS_PATH = os.path.join(ARTIFACTS_URL, "models")
+MP_LANDMARK_MODEL = os.getenv("MP_LANDMARK_MODEL", "face_landmarker.task")
+WRINKLES_MODEL = os.getenv("WRINKLES_MODEL", "sgd_lr001_tunning8_norotation_eliptic_white.keras")
 
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 

@@ -6,6 +6,7 @@ from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.conf import settings
 
 from aquaevitae_api.models import BaseModel, OneToManyBaseModel
 from recommendations.constants import FormSkinDiseasesChoices, FormSkinDiseasesLevelChoices
@@ -15,7 +16,7 @@ def upload_to(instance, filename):
     return f"{md5(instance.id.hex.encode('utf-8')).hexdigest()}.{filename.split('.')[-1]}"
 
 class FacialAnalysis(BaseModel):
-    image = models.ImageField(storage=FileSystemStorage(os.path.join(os.path.dirname(Path(__file__).resolve().parent), "images")), upload_to=upload_to, blank=False, null=True)
+    image = models.ImageField(storage=FileSystemStorage(settings.ANALYSIS_STORAGE_FOLDER), upload_to=upload_to, blank=False, null=True)
     autorized_to_store = models.BooleanField(default=False, null=False, blank=False)
     is_done = models.BooleanField(default=False, null=False, blank=False)
     estimated_age = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -46,7 +47,7 @@ class Predictions(OneToManyBaseModel):
         level = None
         match self.prediction_type:
             case FormSkinDiseasesChoices.WRINKLES:
-                if self.value < 0.5:
+                if self.value < 0.6:
                     level = FormSkinDiseasesLevelChoices.NONE
                 elif self.value < 0.75:
                     level = FormSkinDiseasesLevelChoices.LOW
