@@ -6,14 +6,13 @@ from django.db.models import IntegerChoices
 @unique
 class FormSkinTypeChoices(IntegerChoices):
     DRY = 1, _("Dry")
-    SENSITIVE = 2, _("Sensitive")
-    SENSIBLE = 3, _("Sensible")
-    EXTRA_DRY = 4, _("Extra Dry")
-    COMBINED = 5, _("Combined")
-    IRRITATED = 6, _("Irritated")
-    NORMAL = 7, _("Normal")
-    ATOPIC_TENDENCY = 8, _("Atopic Tendency")
-    FRAGILE_DAMAGED = 9, _("Fragile Damaged")
+    SENSIBLE = 2, _("Sensible")
+    EXTRA_DRY = 3, _("Extra Dry")
+    COMBINED = 4, _("Combined")
+    IRRITATED = 5, _("Irritated")
+    NORMAL = 6, _("Normal")
+    ATOPIC_TENDENCY = 7, _("Atopic Tendency")
+    FRAGILE_DAMAGED = 8, _("Fragile Damaged")
     NOT_SURE = 0, _("Not Sure")
 
 

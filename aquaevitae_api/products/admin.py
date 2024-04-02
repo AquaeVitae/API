@@ -12,7 +12,7 @@ from products.constants import (
     CATEGORY_CHOICES,
     PRODUCT_TYPE_CHOICES,
     SKIN_NEEDS_CHOICES,
-    SIZE_TYPE_CHOICES,
+    ProductSkinTypeChoices,
     SOLAR_CARES_CHOICES,
 )
 from companies.models import Company
@@ -73,7 +73,7 @@ class SkinTypeListFilter(MultipleChoiceListFilter):
     parameter_name = "skin_types__skin_type__in"
 
     def lookups(self, request, model_admin):
-        return SIZE_TYPE_CHOICES
+        return ProductSkinTypeChoices.choices
 
 
 class SkinNeedsListFilter(MultipleChoiceListFilter):

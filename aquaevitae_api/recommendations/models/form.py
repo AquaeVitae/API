@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from aquaevitae_api.models import BaseModel, OneToManyBaseModel
 from recommendations.constants import (
@@ -6,15 +7,26 @@ from recommendations.constants import (
     FormSkinDiseasesChoices,
     FormSkinDiseasesLevelChoices,
 )
+from analysis.models import FacialAnalysis
 
 
 class Form(BaseModel):
-    facial_analyze = models.UUIDField(blank=True, null=True, unique=True)
+    facial_analyzis = models.OneToOneField(FacialAnalysis, blank=True, null=True, on_delete=models.DO_NOTHING)
     user_email = models.EmailField(blank=True, null=True)
     user_name = models.CharField(blank=False, null=False, max_length=50)
     informed_age = models.PositiveSmallIntegerField(blank=False, null=False, default=0)
-    perceived_age = models.PositiveSmallIntegerField(blank=False, null=False, default=0)
 
+    @property
+    def aging_level(self):
+        if not self.facial_analyzis:
+            return 0
+        
+        aging = self.facial_analyzis.estimated_age - self.informed_age
+
+        if aging < 0:
+            return 0
+
+        return (aging / settings.MAX_AGE_DIFFERENCE) + 1
 
 class FormSkinType(OneToManyBaseModel):
     form = models.ForeignKey(Form, related_name="skin_types", on_delete=models.CASCADE)

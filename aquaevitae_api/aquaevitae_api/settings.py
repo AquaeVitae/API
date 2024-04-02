@@ -176,6 +176,7 @@ ANALYSIS_STORAGE_FOLDER = os.path.join(BASE_DIR, "analysis", "images")
 ML_MODELS_PATH = os.path.join(ARTIFACTS_URL, "models")
 MP_LANDMARK_MODEL = os.getenv("MP_LANDMARK_MODEL", "face_landmarker.task")
 WRINKLES_MODEL = os.getenv("WRINKLES_MODEL", "sgd_lr001_tunning8_norotation_eliptic_white.keras")
+MAX_AGE_DIFFERENCE = os.getenv("MAX_AGE_DIFFERENCE", 10)
 
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost")
 

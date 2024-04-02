@@ -33,7 +33,7 @@ class DetailFormSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Form
-        exclude = ("facial_analyze",)
+        exclude = ("facial_analyzis",)
         editable = False
 
 
@@ -57,7 +57,7 @@ class CreateFormSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Form
-        exclude = ("perceived_age", "is_deleted")
+        exclude = ("is_deleted",)
 
     def create(self, validated_data):
         skin_types_data = list(validated_data.pop("skin_types", []))

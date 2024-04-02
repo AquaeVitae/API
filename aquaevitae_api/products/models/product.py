@@ -8,10 +8,12 @@ from aquaevitae_api.models import BaseModel, OneToManyBaseModel
 from products.models.base import ProductBase
 from companies.models import Company
 from products.constants import (
-    SKIN_TYPE_CHOICES,
+    ProductSkinTypeChoices,
     SKIN_NEEDS_CHOICES,
     SOLAR_CARES_CHOICES,
+    DISEASE_NEEDS_MAP
 )
+from recommendations.constants import FormSkinDiseasesLevelChoices
 
 
 def upload_to(instance, filename):
@@ -37,6 +39,30 @@ class Product(ProductBase, BaseModel):
         db_table = "product"
         verbose_name = _("Product")
 
+    def get_score(self, form):
+        score = 0
+        product_skin_needs = set([skin_need.skin_need for skin_need in self.skin_needs.all()])
+
+        for disease in form.skin_diseases.all():
+            if disease.level == FormSkinDiseasesLevelChoices.NONE:
+                continue
+            
+            form_skin_needs = set(DISEASE_NEEDS_MAP[disease.skin_disease])
+
+            related_skin_needs = product_skin_needs.intersection(form_skin_needs)
+
+            score += len(related_skin_needs) * disease.level
+
+        score += round(int(9 in product_skin_needs) * form.aging_level)
+
+        form_skin_types = set([skin_type.skin_type for skin_type in form.skin_types.all()])
+        product_skin_types = set([skin_type.skin_type for skin_type in self.skin_types.all()])
+        related_skin_types = product_skin_types.intersection(form_skin_types)
+        
+        score += (len(related_skin_types) + 1) ** 2 if related_skin_needs else 0
+
+        return score
+
 
 class Ingredients(OneToManyBaseModel):
     product = models.ForeignKey(
@@ -58,7 +84,7 @@ class SkinType(OneToManyBaseModel):
     product = models.ForeignKey(
         Product, related_name="skin_types", on_delete=models.CASCADE
     )
-    skin_type = models.SmallIntegerField(blank=True, choices=SKIN_TYPE_CHOICES)
+    skin_type = models.SmallIntegerField(blank=True, choices=ProductSkinTypeChoices.choices)
 
     class Meta:
         unique_together = (

@@ -1,4 +1,7 @@
 from django.utils.translation import gettext_lazy as _
+from enum import unique
+from django.db.models import IntegerChoices
+
 
 CATEGORY_CHOICES = [
     ("B", _("Body")),
@@ -35,20 +38,17 @@ PRODUCT_TYPE_CHOICES = [
     (0, _("Others")),
 ]
 
-SKIN_TYPE_CHOICES = [
-    (1, _("Dry")),
-    (2, _("Sensitive")),
-    (3, _("Sensible")),
-    (4, _("Extra Dry")),
-    (5, _("Combined")),
-    (6, _("Irritated")),
-    (7, _("Normal")),
-    (8, _("Normal Dry")),
-    (9, _("Normal Combined")),
-    (10, _("Atopic Tendency")),
-    (11, _("Fragile Damaged")),
-    (0, _("All")),
-]
+@unique
+class ProductSkinTypeChoices(IntegerChoices):
+    DRY = 1, _("Dry")
+    SENSIBLE = 2, _("Sensible")
+    EXTRA_DRY = 3, _("Extra Dry")
+    COMBINED = 4, _("Combined")
+    IRRITATED = 5, _("Irritated")
+    NORMAL = 6, _("Normal")
+    ATOPIC_TENDENCY = 7, _("Atopic Tendency")
+    FRAGILE_DAMAGED = 8, _("Fragile Damaged")
+    ALL = 0, _("All")
 
 SKIN_NEEDS_CHOICES = [
     (1, _("Clean")),
@@ -79,3 +79,17 @@ SOLAR_CARES_CHOICES = [
     (5, _("Suntun")),
     (0, _("Others")),
 ]
+
+DISEASE_NEEDS_MAP = {
+    1: [6, 8, 1],
+    2: [6, 1, 4],
+    3: [6, 8, 1],
+    4: [5, 7, 1],
+    5: [4, 7, 1],
+    6: [6, 4, 7, 8],
+    7: [7, 1, 8],
+    8: [3, 1, 8],
+    9: [9, 6, 8, 1],
+    10: [1, 8],
+    11: [1, 8]
+}

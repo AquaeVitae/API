@@ -21,4 +21,7 @@ class ProductsViewSet(mixins.ListModelMixin, AtomicTransactionMixin, BaseViewSet
     serializer_class = DetailProductSerializer
 
     def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
+        response = super().list(request, *args, **kwargs)
+        if request.query_params.get("form_id"):
+            response.data = sorted(response.data, key=lambda k: (k['score'], ), reverse=True)
+        return response

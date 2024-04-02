@@ -49,9 +49,9 @@ class Predictions(OneToManyBaseModel):
             case FormSkinDiseasesChoices.WRINKLES:
                 if self.value < 0.6:
                     level = FormSkinDiseasesLevelChoices.NONE
-                elif self.value < 0.75:
+                elif self.value < 0.70:
                     level = FormSkinDiseasesLevelChoices.LOW
-                elif self.value < 0.9:
+                elif self.value < 0.85:
                     level = FormSkinDiseasesLevelChoices.MEDIUM
                 else:
                     level = FormSkinDiseasesLevelChoices.HIGH

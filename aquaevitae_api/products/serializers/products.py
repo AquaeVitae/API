@@ -1,7 +1,9 @@
+from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
 from products.models import Product, SkinType, SkinNeeds, SkinSolarNeeds
 from products.constants import CATEGORY_CHOICES, PRODUCT_TYPE_CHOICES
+from recommendations.models import Form
 
 
 class DetailSkinTypeSerializer(serializers.ModelSerializer):
@@ -68,7 +70,7 @@ class DetailProductSerializer(serializers.ModelSerializer):
     skin_needs = DetailSkinNeedsSerializer(many=True, allow_empty=False)
     skin_solar_needs = DetailSkinSolarNeedsSerializer(many=True, allow_empty=True)
     image = serializers.ImageField(required=False)
-    # score = TODO
+    score = serializers.SerializerMethodField("get_score", required=False, read_only=True)
 
     class Meta:
         model = Product
@@ -86,6 +88,18 @@ class DetailProductSerializer(serializers.ModelSerializer):
             {"code": type, "verbose_name": instance.get_type_display()}
         )
         return data
+
+    def get_score(self, instance):
+        request = self.context.get("request")
+        if request.GET and request.query_params.get("form_id"):
+            try:
+                form = Form.objects.get(id=request.GET.get("form_id"), is_deleted=False)
+            except Form.DoesNotExist as e:
+                raise serializers.ValidationError("Form not found")
+            except ValidationError as e:
+                raise serializers.ValidationError(e)
+
+            return instance.get_score(form)
 
 
 class CreateImageSerializer(serializers.ModelSerializer):
