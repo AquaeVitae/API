@@ -47,7 +47,6 @@ v1_urlpatterns = (
             name="schema-swagger-ui",
         ),
     ]
-    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     + recommendations_urls.urlpatterns
     + products_urls.urlpatterns
     + partnerships_urls.urlpatterns
@@ -56,4 +55,4 @@ v1_urlpatterns = (
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("v1/", include((v1_urlpatterns, "v1"), namespace="v1")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
