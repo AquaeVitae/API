@@ -51,6 +51,7 @@ EXTERNAL_APPS = [
     "drf_yasg",
     "rest_framework",
     "django_admin_multiple_choice_list_filter",
+    'django_filters',
 ]
 
 INTERNAL_APPS = [
@@ -166,6 +167,9 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.JSONParser",
     ],
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', "rest_framework.filters.SearchFilter", "rest_framework.filters.OrderingFilter"],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
 
 # Application settings

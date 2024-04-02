@@ -16,7 +16,6 @@ from recommendations.models import Form
 
 class FormViewSet(
     mixins.CreateModelMixin,
-    mixins.RetrieveModelMixin,
     AtomicTransactionMixin,
     BaseViewSet,
 ):

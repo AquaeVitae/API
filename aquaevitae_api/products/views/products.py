@@ -1,11 +1,7 @@
 from rest_framework import permissions, mixins
-from rest_framework.parsers import MultiPartParser
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.request import Request
 
 from aquaevitae_api.views import BaseViewSet, AtomicTransactionMixin
-from products.serializers import DetailProductSerializer, CreateImageSerializer
+from products.serializers import DetailProductSerializer
 from products.models import Product
 
 
@@ -18,7 +14,15 @@ class ProductsViewSet(mixins.ListModelMixin, AtomicTransactionMixin, BaseViewSet
     permission_classes = [
         permissions.AllowAny,
     ]
+    filterset_fields = {
+            "category": ["in", "exact"],
+            "type": ["in", "exact"],
+            "skin_types__skin_type": ["in", "exact"],
+            "skin_needs__skin_need": ["in", "exact"],
+        }
     serializer_class = DetailProductSerializer
+    search_fields = ['name', 'ingredients__name']
+    ordering_fields = ["created_at", "price"]
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
