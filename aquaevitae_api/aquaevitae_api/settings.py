@@ -31,11 +31,16 @@ DEBUG = os.getenv("DEBUG", True)
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(" ")
 
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(" ")
+
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(" ")
+
 # Config Dev Dotenv
 from dotenv import load_dotenv
 
 if DEBUG:
     load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+    CORS_ALLOW_ALL_ORIGINS = True
 
 # Actual directory user files go to
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "mediafiles")
@@ -73,8 +78,6 @@ DJANGO_APPS = [
 ]
 
 INSTALLED_APPS = DJANGO_APPS + INTERNAL_APPS + EXTERNAL_APPS
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
