@@ -1,0 +1,61 @@
+services:
+  web:
+    restart: unless-stopped
+    build: .
+    expose:
+      - "8000"
+    command: gunicorn --chdir aquaevitae_api aquaevitae_api.wsgi:application --bind 0.0.0.0:8000
+    depends_on:
+      - db
+      - redis
+    env_file: 
+      - ./.env.production
+      - ./.env.database
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/mediafiles
+      - ml_images_volume:/app/aquaevitae_api/analysis/images
+      - ./artifacts/models:/app/artifacts/models
+  
+  db:
+    image: postgres:14
+    volumes:
+      - product_recommendation_pg_data:/var/lib/postgresql/data/
+    env_file: ./.env.database
+
+  redis:
+    restart: unless-stopped
+    image: redis:7.2.4-alpine 
+    expose:
+        - 6379
+    command: redis-server --save "" --appendonly no
+
+  celery:
+    build: .
+    working_dir: /app/aquaevitae_api
+    command: celery -A aquaevitae_api worker -l INFO
+    volumes:
+      - ml_images_volume:/app/aquaevitae_api/analysis/images
+      - ./artifacts/models:/app/artifacts/models
+    env_file: 
+      - ./.env.production
+    depends_on:
+        - web
+        - redis
+
+  nginx:
+    restart: always
+    build: ./nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/app/static
+    hostname: aquaevitaeproducts.ipb.pt
+
+volumes:
+  product_recommendation_pg_data:
+  static_volume:
+  media_volume:
+  ml_images_volume:
