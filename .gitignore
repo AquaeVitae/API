@@ -1,11 +1,11 @@
 venv
 .env*
 __pycache__
-# mediafiles/*/*
+mediafiles/*/*
 .vscode
 *.zip
-# aquaevitae_api/analysis/images/*
+aquaevitae_api/analysis/images/*
 dump.rdb
-# artifacts/models/*
-# static/*
+artifacts/models/*
+static/*
 *.orig
