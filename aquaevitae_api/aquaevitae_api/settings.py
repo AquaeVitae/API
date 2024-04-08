@@ -23,13 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv(
-    "SECRET_KEY", "django-insecure-^&ha2eixto9y#0^2*j_+juxy*$a=vse%h3!9y7zr41$(k=_m1j"
+    "SECRET_KEY"
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", True)
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", [])
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(" ")
 
 # Config Dev Dotenv
 from dotenv import load_dotenv
@@ -52,6 +52,7 @@ EXTERNAL_APPS = [
     "rest_framework",
     "django_admin_multiple_choice_list_filter",
     'django_filters',
+    "corsheaders",
 ]
 
 INTERNAL_APPS = [
@@ -73,8 +74,10 @@ DJANGO_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + INTERNAL_APPS + EXTERNAL_APPS
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -154,6 +157,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
 STATIC_URL = "static/"
 
 # Default primary key field type
@@ -191,8 +195,8 @@ EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_USE_TLS=os.getenv("EMAIL_USE_TLS", True)
 
-CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
-CELERY_ACCEPT_CONTENT = json.loads(os.getenv("CELERY_ACCEPT_CONTENT"))
-CELERY_RESULT_SERIALIZER = os.getenv("CELERY_RESULT_SERIALIZER")
-CELERY_TASK_SERIALIZER = os.getenv("CELERY_TASK_SERIALIZER")
-CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+CELERY_broker_url = os.getenv("CELERY_BROKER_URL")
+accept_content = json.loads(os.getenv("CELERY_ACCEPT_CONTENT"))
+result_serializer = os.getenv("CELERY_RESULT_SERIALIZER")
+task_serializer = os.getenv("CELERY_TASK_SERIALIZER")
+result_backend = os.getenv("CELERY_RESULT_BACKEND")

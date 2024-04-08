@@ -1,5 +1,5 @@
 venv
-.env*
+.env
 __pycache__
 mediafiles/*/*
 .vscode
@@ -7,5 +7,7 @@ mediafiles/*/*
 aquaevitae_api/analysis/images/*
 dump.rdb
 artifacts/models/*
+.git
+.gitignore
 static/*
 *.orig

@@ -62,9 +62,6 @@ def analysis_error_handler(func):
 
 
 class PredictTask(Task):
-    """
-    Abstraction of Celery's Task class to support loading ML model.
-    """
     abstract = True
 
     def __init__(self):
@@ -73,10 +70,6 @@ class PredictTask(Task):
         self.wrinkles_model = None
 
     def __call__(self, *args, **kwargs):
-        """
-        Load model on first call (i.e. first task processed)
-        Avoids the need to load model on each task request
-        """
         if not self.mtcnn_model:
             self.mtcnn_model = MTCNN()
 
