@@ -70,9 +70,13 @@ class PredictTask(Task):
         self.wrinkles_model = None
 
     def __call__(self, *args, **kwargs):
-        if not self.mtcnn_model:
-            self.mtcnn_model = MTCNN()
+        try:
+            if not self.mtcnn_model:
+                self.mtcnn_model = MTCNN()
 
-        if not self.wrinkles_model:
-            self.wrinkles_model = load_model(os.path.join(settings.ML_MODELS_PATH, settings.WRINKLES_MODEL))
+            if not self.wrinkles_model:
+                self.wrinkles_model = load_model(os.path.join(settings.ML_MODELS_PATH, settings.WRINKLES_MODEL))
+        except:
+            pass
+
         return self.run(*args, **kwargs)

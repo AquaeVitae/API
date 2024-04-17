@@ -19,7 +19,7 @@ REQUEST_DENIED_BY_SERVER_MESSAGE = _(
 )
 REQUEST_CREATED_ADMIN_SUBJECT = _("A partnership request was received from %s!")
 REQUEST_CREATED_ADMIN_MESSAGE = _(
-    "Request ID: %s\nCompany Name: %s\nAgent Name: %s\nAgent Role: %s\nAgent Email: %s\nPhone Number: %s\nRequest Message: \n%s\n"
+    "Request ID: %s\nCompany Name: %s\nCompany Country: %s\nAgent Name: %s\nAgent Role: %s\nAgent Email: %s\nPhone Number: %s\nRequest Message: \n%s\n"
 )
 
 RECOMMENDATIONS_SUBJECT = _("Here is your Aquaevitae personalized skin care plan!")

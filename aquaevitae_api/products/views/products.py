@@ -27,5 +27,5 @@ class ProductsViewSet(mixins.ListModelMixin, AtomicTransactionMixin, BaseViewSet
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
         if request.query_params.get("form_id"):
-            response.data = sorted(response.data, key=lambda k: (k['score'], ), reverse=True)
+            response.data["results"] = sorted(response.data["results"], key=lambda k: (k['score'], ), reverse=True)
         return response

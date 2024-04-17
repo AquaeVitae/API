@@ -79,6 +79,7 @@ def notify_partnership_stakeholders(
                 % (
                     instance.id,
                     instance.company_name,
+                    instance.country.name,
                     instance.agent_fullname,
                     instance.agent_role,
                     instance.agent_email,

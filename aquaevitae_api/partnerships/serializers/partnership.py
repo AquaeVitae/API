@@ -13,7 +13,7 @@ from partnerships.constants import RequestStatusChoices
 
 
 class CreatePartnershipSerializer(CountryFieldMixin, serializers.ModelSerializer):
-    phone = PhoneNumberField()
+    phone = PhoneNumberField(allow_null=True, required=False, allow_blank=True)
 
     def validate(self, attrs):
         q_partnerships = PartnershipRequest.objects.filter(

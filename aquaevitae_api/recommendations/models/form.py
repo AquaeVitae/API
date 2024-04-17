@@ -15,6 +15,7 @@ class Form(BaseModel):
     user_email = models.EmailField(blank=True, null=True)
     user_name = models.CharField(blank=False, null=False, max_length=50)
     informed_age = models.PositiveSmallIntegerField(blank=False, null=False, default=0)
+    autorized = models.BooleanField(blank=False, null=False, default=False)
 
     @property
     def aging_level(self):

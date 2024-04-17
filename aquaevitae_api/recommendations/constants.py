@@ -33,7 +33,7 @@ class FormSkinDiseasesChoices(IntegerChoices):
 
 @unique
 class FormSkinDiseasesLevelChoices(IntegerChoices):
-    NONE = 0, _("Translucency")
+    NONE = 0, _("None")
     LOW = 1, _("Low")
     MEDIUM = 2, _("Medium")
     HIGH = 3, _("High")
