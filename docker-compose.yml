@@ -17,6 +17,15 @@ services:
       - ml_images_volume:/app/aquaevitae_api/analysis/images
       - ./artifacts/models:/app/artifacts/models
   
+  front:
+    restart: unless-stopped
+    build: 
+      context: ../aquaevitae-front
+      dockerfile: Dockerfile
+    expose:
+      - "8080"
+    command: "nginx -g daemon off;"
+
   db:
     image: postgres:14
     volumes:
@@ -48,8 +57,10 @@ services:
     build: ./nginx
     ports:
       - 1337:80
+      - 1338:81
     depends_on:
       - web
+      - front
     volumes:
       - static_volume:/app/static
     hostname: aquaevitaeproducts.ipb.pt
