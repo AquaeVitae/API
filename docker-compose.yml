@@ -24,7 +24,6 @@ services:
       dockerfile: Dockerfile
     expose:
       - "8080"
-    command: "nginx -g daemon off;"
 
   db:
     image: postgres:14
