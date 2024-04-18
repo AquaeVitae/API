@@ -62,6 +62,7 @@ services:
       - front
     volumes:
       - static_volume:/app/static
+      - media_volume:/app/mediafiles
     hostname: aquaevitaeproducts.ipb.pt
 
 volumes:
