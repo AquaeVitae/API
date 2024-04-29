@@ -5,3 +5,4 @@ __pycache__
 *.zip
 dump.rdb
 *.orig
+*.sql

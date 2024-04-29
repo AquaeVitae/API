@@ -13,22 +13,15 @@ services:
       - ./.env.database
     volumes:
       - static_volume:/app/static
-      - media_volume:/app/mediafiles
+      - ./mediafiles:/app/mediafiles
       - ml_images_volume:/app/aquaevitae_api/analysis/images
       - ./artifacts/models:/app/artifacts/models
-  
-  front:
-    restart: unless-stopped
-    build: 
-      context: ../aquaevitae-front
-      dockerfile: Dockerfile
-    expose:
-      - "8080"
 
   db:
     image: postgres:14
     volumes:
       - product_recommendation_pg_data:/var/lib/postgresql/data/
+      - ./backup.sql:/docker-entrypoint-initdb.d/dummy_dump.sql
     env_file: ./.env.database
 
   redis:
@@ -56,10 +49,8 @@ services:
     build: ./nginx
     ports:
       - 1337:80
-      - 1338:81
     depends_on:
       - web
-      - front
     volumes:
       - static_volume:/app/static
       - media_volume:/app/mediafiles
